@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+.phpunit.cache
+.phpunit.result.cache
+/resources/dist/hot
+/tests/__fixtures__/dev-null
+/tests/__fixtures__/**/*.yaml
+/tests/__fixtures__/**/*.md
+.DS_Store
