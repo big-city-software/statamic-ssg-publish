@@ -6,7 +6,7 @@ use Statamic\Facades\Addon;
 
 class Edition
 {
-    public const PACKAGE = 'segment-holdings/statamic-ssg-publish';
+    public const PACKAGE = 'big-city-software/statamic-ssg-publish';
 
     public static function current(): string
     {

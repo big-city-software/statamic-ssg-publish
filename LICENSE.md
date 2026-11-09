@@ -1,6 +1,6 @@
 # SSG Publish Commercial License
 
-Copyright (c) 2026 Segment Holdings
+Copyright (c) 2026 Segment Holdings LLC
 
 SSG Publish is commercial software. It is licensed, not sold.
 

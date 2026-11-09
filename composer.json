@@ -1,17 +1,19 @@
 {
-    "name": "segment-holdings/statamic-ssg-publish",
+    "name": "big-city-software/statamic-ssg-publish",
     "description": "Publish a statamic/ssg site from the Control Panel, with build status, a change list, and scheduled rebuilds.",
     "version": "0.1.0",
     "type": "statamic-addon",
     "license": "proprietary",
     "authors": [
         {
-            "name": "Segment Holdings",
+            "name": "Segment Holdings LLC",
             "homepage": "https://segment.holdings"
         }
     ],
+    "homepage": "https://github.com/big-city-software/statamic-ssg-publish",
     "support": {
-        "email": "support@segment.holdings"
+        "email": "hello@segment.holdings",
+        "source": "https://github.com/big-city-software/statamic-ssg-publish"
     },
     "require": {
         "php": "^8.3",
@@ -40,7 +42,7 @@
             "description": "Publish a static site from the Control Panel.",
             "slug": "ssg-publish",
             "editions": ["free", "pro"],
-            "developer": "Segment Holdings",
+            "developer": "Segment Holdings LLC",
             "developer-url": "https://segment.holdings"
         },
         "laravel": {

@@ -27,7 +27,7 @@ abstract class TestCase extends AddonTestCase
         parent::getEnvironmentSetUp($app);
 
         $manifest = $app->make(Manifest::class);
-        $id = 'segment-holdings/statamic-ssg-publish';
+        $id = 'big-city-software/statamic-ssg-publish';
         $manifest->manifest[$id]['editions'] = ['free', 'pro'];
         $manifest->manifest[$id]['name'] = 'SSG Publish';
         $manifest->manifest[$id]['slug'] = 'ssg-publish';
@@ -35,7 +35,7 @@ abstract class TestCase extends AddonTestCase
 
     protected function useEdition(string $edition): void
     {
-        config()->set('statamic.editions.addons.segment-holdings/statamic-ssg-publish', $edition);
+        config()->set('statamic.editions.addons.big-city-software/statamic-ssg-publish', $edition);
     }
 
     protected function signInSuper(): void

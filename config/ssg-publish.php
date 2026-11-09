@@ -15,7 +15,7 @@ return [
     | require the Pro edition. Select the edition in config/statamic/editions.php:
     |
     | 'addons' => [
-    |     'segment-holdings/statamic-ssg-publish' => 'pro',
+    |     'big-city-software/statamic-ssg-publish' => 'pro',
     | ],
     |
     | Drivers: github_actions, cloudflare_pages, netlify, vercel, hook.
