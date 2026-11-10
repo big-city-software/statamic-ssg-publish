@@ -1,0 +1,64 @@
+{
+    "name": "big-city-software/statamic-ssg-publish",
+    "description": "Publish a statamic/ssg site from the Control Panel, with build status, a change list, and scheduled rebuilds.",
+    "version": "0.1.0",
+    "type": "statamic-addon",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Segment Holdings LLC",
+            "homepage": "https://segment.holdings"
+        }
+    ],
+    "homepage": "https://github.com/big-city-software/statamic-ssg-publish",
+    "support": {
+        "email": "hello@segment.holdings",
+        "source": "https://github.com/big-city-software/statamic-ssg-publish"
+    },
+    "require": {
+        "php": "^8.3",
+        "statamic/cms": "^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.8 || ^11.0",
+        "phpunit/phpunit": "^12.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "SegmentHoldings\\SsgPublish\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SegmentHoldings\\SsgPublish\\Tests\\": "tests/"
+        }
+    },
+    "suggest": {
+        "statamic/ssg": "Install this on the site that GitHub Actions or your host builds. SSG Publish triggers that build; it does not generate pages inside the Control Panel request."
+    },
+    "extra": {
+        "statamic": {
+            "name": "SSG Publish",
+            "description": "Publish a static site from the Control Panel.",
+            "slug": "ssg-publish",
+            "editions": ["free", "pro"],
+            "developer": "Segment Holdings LLC",
+            "developer-url": "https://segment.holdings"
+        },
+        "laravel": {
+            "providers": [
+                "SegmentHoldings\\SsgPublish\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "pixelfear/composer-dist-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}
