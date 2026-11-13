@@ -1,6 +1,6 @@
 <script setup>
 import { Head } from '@statamic/cms/inertia';
-import { computed, onBeforeUnmount, ref } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { cpJson } from '../api';
 
 const props = defineProps({
@@ -89,13 +89,25 @@ function startWatching() {
     timer = setInterval(refresh, 15000);
 }
 
-startWatching();
-
-onBeforeUnmount(() => {
-    if (timer) {
-        clearInterval(timer);
+function stopWatching() {
+    if (!timer) {
+        return;
     }
-});
+
+    clearInterval(timer);
+    timer = null;
+}
+
+watch(watching, (active) => {
+    if (active) {
+        startWatching();
+        return;
+    }
+
+    stopWatching();
+}, { immediate: true });
+
+onBeforeUnmount(stopWatching);
 </script>
 
 <template>

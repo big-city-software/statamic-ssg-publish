@@ -2,7 +2,24 @@
 
 All notable changes to SSG Publish are documented here.
 
-0.1.0 is an unpublished prototype. HTTP tests do not show that a live GitHub Actions workflow or a Cloudflare Pages, Netlify, or Vercel hook accepts a publish.
+Nothing here is tagged. Packagist versions come from git tags, and this repository is not on Packagist until the maintainer submits it. GitHub Actions, Cloudflare Pages, Netlify, and Vercel have still not been called with real credentials. See `docs/E2E-REPORT.md` for the local hook publish that was verified against a real HTTP server.
+
+## Unreleased
+
+### Added
+
+- A PHPUnit test that posts to a real local TLS server, without `Http::fake`, and checks the method, path, headers, and empty body.
+- `docs/E2E-REPORT.md` and Control Panel screenshots under `docs/screenshots/` from a fresh Statamic 6.41 app publishing to a local HTTPS listener.
+- `composer validate --strict` and `composer audit` in GitHub Actions. Composer is configured to refuse dependency updates that have a known security advisory.
+
+### Changed
+
+- Removed the `version` field from `composer.json`. Packagist takes the version from the git tag.
+- The utility starts polling build status after a publish moves a target to queued or in progress, including when the page did not load in that state.
+
+### Fixed
+
+- The utility page did not start polling after Publish moved a GitHub target to queued or in progress, unless the page had loaded in that state. Polling now follows that state.
 
 ## 0.1.0 - 2026-11-05
 

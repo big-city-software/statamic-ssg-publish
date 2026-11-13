@@ -1,6 +1,6 @@
 # SSG Publish
 
-Prototype. The automated tests fake every external HTTP call. Nothing in this repository has been verified against a live GitHub Actions workflow, Cloudflare Pages, Netlify, or Vercel. Do not treat a passing test run as proof that a real publish works.
+A generic HTTPS deploy hook has been published from a real Statamic 6 Control Panel to a real local listener. GitHub Actions, Cloudflare Pages, Netlify, and Vercel have not. Those APIs were not called, because this tree has no credentials for them. A passing test run is not proof that those hosts accept a publish. The exact record is [docs/E2E-REPORT.md](docs/E2E-REPORT.md).
 
 Publish a [statamic/ssg](https://github.com/statamic/ssg) site from the Control Panel. Editors get a Publish button, and on the Pro edition they can see whether the build is queued, running, or finished, what changed since the last successful publish, and let scheduled entries go live without someone running the generator by hand.
 
@@ -20,11 +20,15 @@ It does not bypass Statamic Core or Statamic Pro limits. Editions are the addon'
 
 ## Install
 
+Packagist versions come from git tags. `composer.json` does not set `version`. After this package is submitted to Packagist, install it with:
+
 ```bash
 composer require big-city-software/statamic-ssg-publish
 ```
 
-Statamic publishes the Control Panel assets on install. If you are installing from a path repository, publish them yourself:
+This repository is not on Packagist yet. `composer require` will fail until the maintainer tags a release and submits the package. The command above is the install path that Packagist will serve.
+
+Statamic publishes the Control Panel assets when the package is installed. If you are installing from a path repository before that, add the path repository and then publish the assets yourself:
 
 ```bash
 php please vendor:publish --tag=ssg-publish --force
@@ -185,6 +189,14 @@ The utility and the dashboard widget, on a fresh Statamic 6.40 site with the Pro
 
 ![SSG Publish utility on a narrow screen](docs/images/utility-mobile.png)
 
+These are from the 2026-11-13 Control Panel run against a real local hook. The hook URL is not shown. Build status and the change list are the Pro edition. The free edition hides them and locks the second target.
+
+![Free edition: Publish is enabled on the first target only](docs/screenshots/free-edition.png)
+
+![Pro edition: build status and the change list](docs/screenshots/pro-status-and-change-list.png)
+
+![Pro edition: the second target accepted, and the change list cleared](docs/screenshots/pro-second-target-accepted.png)
+
 Open **Utilities → SSG Publish**, or add the dashboard widget in `config/statamic/cp.php`:
 
 ```php
@@ -255,21 +267,25 @@ The package name is `big-city-software/statamic-ssg-publish`. The PHP namespace 
 
 ## Verification
 
-This record is from a local `composer install` of the locked dependencies, then `composer validate` and `vendor/bin/phpunit`. It is not a live publish.
+`composer validate --strict` passes. `composer.json` does not set `version`. Packagist will take the version from a git tag. The license identifier is `proprietary`, which is the closed-source value Composer accepts for a commercial addon.
+
+The PHPUnit suite is 28 tests and 134 assertions. Twenty-four of the original tests still fake GitHub and hook HTTP. Four tests in `tests/LiveHookTest.php` post to a real local TLS server and check the method, path, headers, and empty body. They still do not call GitHub, Cloudflare, Netlify, or Vercel.
+
+The Control Panel proof is separate from PHPUnit. It is written up in [docs/E2E-REPORT.md](docs/E2E-REPORT.md), with the screenshots under [docs/screenshots/](docs/screenshots/).
 
 | | |
 | --- | --- |
-| Date | 2026-11-09 |
+| Date | 2026-11-13 |
 | PHP | 8.3.6 |
-| Composer | 2.11.1 |
-| laravel/framework | v13.40.0 |
-| statamic/cms | v6.40.0 |
+| Composer | 2.11.2 |
+| Locked laravel/framework | v13.40.0 |
+| Locked statamic/cms | v6.40.0 |
+| Fresh app used for the Control Panel proof | statamic/cms v6.41.0, laravel/framework v13.42.0, statamic/ssg 4.2.2 |
 | orchestra/testbench | v11.3.0 |
 | phpunit/phpunit | 12.5.43 |
-| `composer validate` | Valid. Warning: `version` is set in `composer.json`, which Packagist would rather take from a git tag. This tree is not on Packagist. |
-| PHPUnit | 24 tests, 96 assertions, all passing |
-
-Those tests boot Statamic through Orchestra Testbench and fake HTTP. They do not call GitHub, Cloudflare, Netlify, or Vercel. A failed or untested live dispatch is still an open integration risk.
+| `composer validate --strict` | Valid, no warnings |
+| `composer audit` | No security advisories |
+| PHPUnit | 28 tests, 134 assertions, all passing |
 
 ## Development
 
@@ -280,7 +296,7 @@ npm run build
 composer test
 ```
 
-Tests use Orchestra Testbench, Statamic's `AddonTestCase`, and the `statamic/cms` dependency declared in `composer.json`. GitHub and hook calls are `Http::fake()`d. A green run does not mean GitHub, Cloudflare Pages, Netlify, or Vercel accepted a publish. The suite never contacts those services.
+Tests use Orchestra Testbench, Statamic's `AddonTestCase`, and the `statamic/cms` dependency declared in `composer.json`. GitHub calls are `Http::fake()`d. `tests/LiveHookTest.php` is the exception: it posts to a local TLS server. A green run does not mean GitHub, Cloudflare Pages, Netlify, or Vercel accepted a publish. The suite never contacts those services.
 
 Control Panel JavaScript is built with Vite the way [Statamic's addon tooling](https://statamic.dev/addons/vite-tooling) describes: `Statamic.$inertia.register()` for the utility page and `Statamic.$components.register()` for the widget. Production files are committed in `resources/dist` so an install does not need Node.
 
