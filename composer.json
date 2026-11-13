@@ -1,7 +1,6 @@
 {
     "name": "big-city-software/statamic-ssg-publish",
     "description": "Publish a statamic/ssg site from the Control Panel, with build status, a change list, and scheduled rebuilds.",
-    "version": "0.1.0",
     "type": "statamic-addon",
     "license": "proprietary",
     "authors": [
@@ -41,6 +40,7 @@
             "name": "SSG Publish",
             "description": "Publish a static site from the Control Panel.",
             "slug": "ssg-publish",
+            "url": "https://github.com/big-city-software/statamic-ssg-publish",
             "editions": ["free", "pro"],
             "developer": "Segment Holdings LLC",
             "developer-url": "https://segment.holdings"
@@ -56,6 +56,10 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "pixelfear/composer-dist-plugin": true
+        },
+        "audit": {
+            "abandoned": "ignore",
+            "block-insecure": true
         }
     },
     "scripts": {
